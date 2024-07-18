@@ -18,3 +18,14 @@ allowed_outbound_hosts = []
 command = "npm run build"
 workdir = "jsapi"
 
+[[trigger.http]]
+route = "/rustyapi/..."
+component = "rustyapi"
+
+[component.rustyapi]
+source = "rustyapi/target/wasm32-wasi/release/rustyapi.wasm"
+allowed_outbound_hosts = []
+[component.rustyapi.build]
+command = "cargo build --target wasm32-wasi --release"
+workdir = "rustyapi"
+watch = ["src/**/*.rs", "Cargo.toml"]

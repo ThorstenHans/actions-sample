@@ -13,6 +13,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: "Checkout Code"
+      - run: |
+          rustup target add wasm32-wasi
+        name: "Add the wasm32-wasi target to the Rust installation"
       - uses: fermyon/actions/spin/setup@v1
         name: "Install the Spin CLI"
         with:
