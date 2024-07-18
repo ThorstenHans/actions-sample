@@ -20,6 +20,9 @@ jobs:
         name: "Install the Spin CLI"
         with:
           plugins: js2wasm
+      - run: |
+          spin plugins list --installed
+        name: "List installed Spin plugins"
       ##! ghcr.io/{owner}/{app_name}:{tag(s)}
       ##! ghcr.io/ThorstenHans/sample-spin-app:2384732-1
       - run: |
