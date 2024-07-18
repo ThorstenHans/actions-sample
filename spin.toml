@@ -1,0 +1,20 @@
+spin_manifest_version = 2
+
+[application]
+name = "actions-sample"
+version = "0.1.0"
+authors = ["Thorsten Hans <thorsten.hans@fermyon.com>"]
+description = ""
+
+[[trigger.http]]
+route = "/js/..."
+component = "jsapi"
+
+[component.jsapi]
+source = "jsapi/target/jsapi.wasm"
+allowed_outbound_hosts = []
+
+[component.jsapi.build]
+command = "npm run build"
+workdir = "jsapi"
+

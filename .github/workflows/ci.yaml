@@ -1,0 +1,32 @@
+name: ci
+on:
+  - push
+env:
+  APP_NAME: sample-spin-app
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    name: Continuous Integration
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout Code"
+      - uses: fermyon/actions/spin/setup@v1
+        name: "Install the Spin CLI"
+        with:
+          plugins: js2wasm
+      ##! ghcr.io/{owner}/{app_name}:{tag(s)}
+      ##! ghcr.io/ThorstenHans/sample-spin-app:2384732-1
+      - run: |
+          echo "ARTIFACT_OWNER=${GITHUB_REPOSITORY_OWNER@L}" >> ${GITHUB_ENV}
+        name: "Create lowercased OCI artifact owner"
+      - uses: fermyon/actions/spin/push@v1
+        name: "Build and Push the Spin App"
+        with:
+          registry: ghcr.io
+          registry_username: ${{ github.actor }}
+          registry_password: ${{ secrets.GITHUB_TOKEN }}
+          registry_reference: "ghcr.io/${{ env.ARTIFACT_OWNER }}/${{ env.APP_NAME}}:${{ github.run_id}}-${{ github.run_attempt}}"
+          manifest_file: spin.toml
